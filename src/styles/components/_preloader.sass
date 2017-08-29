@@ -1,0 +1,28 @@
+.preloader
+  circle
+    animation: 1.75s ease-in-out both infinite reverse bounce
+    transform: scale(.5)
+
+    &:nth-child(1)
+      animation-delay: 3s
+      transform-origin: 25px 16px
+
+    &:nth-child(2)
+      animation-delay: 1.5s
+      transform-origin: 50px 16px
+
+    &:nth-child(3)
+      transform-origin: 75px 16px
+
+@keyframes bounce
+  0
+    opacity: 1
+    transform: scale(.5)
+
+  50%
+    opacity: .5
+    transform: scale(1)
+
+  100%
+    opacity: 1
+    transform: scale(.5)
