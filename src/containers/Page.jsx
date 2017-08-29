@@ -97,7 +97,9 @@ class HomePage extends Component {
     ));
     return (
       <div className="page">
-        <h1 className="page__title">React Recipe Finder</h1>
+        <h1 className="page__title">
+          <span>React Recipe Finder</span>
+        </h1>
         <SearchForm handleSubmit={this.onSearch} />
         <div className="results">
           {renderedRecipes}

@@ -1,6 +1,8 @@
 # React-Redux Recipe Finder
 
-App to find recipes and dishes, using an external API. You can also save these recipes for later.
+App to find recipes and dishes, using the [Food2Fork API](https://food2fork.com/about/api). You can also save these recipes for later.
+
+Icons are from [Freepik](http://www.freepik.com), available on [flaticon.com](https://www.flaticon.com/) and licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/).
 
 ## Tools Used
 

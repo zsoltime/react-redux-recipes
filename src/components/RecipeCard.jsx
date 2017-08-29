@@ -5,15 +5,6 @@ import deafultImage from '../images/default.svg';
 
 const RecipeCard = props => (
   <div className="card">
-    <h2 className="card__title">
-      <a
-        href={props.sourceUrl}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        {props.title}
-      </a>
-    </h2>
     <div className="card__image">
       <a
         href={props.sourceUrl}
@@ -23,6 +14,15 @@ const RecipeCard = props => (
         <img src={props.thumbnail} alt="" />
       </a>
     </div>
+    <h2 className="card__title">
+      <a
+        href={props.sourceUrl}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {props.title}
+      </a>
+    </h2>
     <div className="card__publisher">
       {props.publisher ? (
         <span>Recipe is from <a
@@ -39,6 +39,7 @@ const RecipeCard = props => (
         className="card__btn"
         onClick={() => props.handleFavClick(props.id)}
         aria-label="Add to favourites"
+        aria-pressed={props.isFavorite}
       >
         {props.isFavorite
           ? <span aria-hidden>&#9733;</span>

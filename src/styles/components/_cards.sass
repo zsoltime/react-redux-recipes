@@ -1,0 +1,89 @@
+.results
+  align-items: stretch
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  margin: 0 auto 1rem
+  max-width: 1440px
+
+.card
+  background-color: white
+  box-shadow: 1px 1px 2px rgba(black, .1)
+  flex: 1 1 14rem
+  margin: 1rem
+  overflow: hidden
+  position: relative
+
+  &__title
+    background-color: $main-color
+    font-size: 1.25rem
+    font-weight: 300
+    line-height: 1.25
+    margin: 0
+    padding: 1rem
+    position: relative
+    text-align: center
+    z-index: 1
+
+    &::before
+      background-color: $main-color
+      content: ''
+      height: 100%
+      left: 0
+      position: absolute
+      top: 0
+      transition: transform .3s ease-in-out
+      transform: skewY(-10deg)
+      width: 101%
+      z-index: -1
+
+    a
+      color: white
+      text-decoration: none
+
+  &__image
+    height: 18rem
+    overflow: hidden
+    width: 100%
+
+    img
+      height: 100%
+      object-fit: cover
+      overflow: hidden
+      transition: filter .3s ease-in-out
+      width: 100%
+
+    &:hover,
+    a:focus
+      img
+        filter: brightness(.5)
+
+  &__publisher
+    background-color: white
+    color: rgba(black, .5)
+    font-size: .75rem
+    line-height: 1
+    overflow: hidden
+    padding: .5rem
+    position: relative
+    text-align: center
+    text-overflow: ellipsis
+    white-space: nowrap
+    z-index: 1
+
+  &__actions
+    position: absolute
+    right: 0
+    top: 0
+
+  &__btn
+    background-color: transparent
+    border: 0
+    color: $main-color
+    font-size: 2.5rem
+    text-shadow: 1px 1px 2px rgba(black, .1)
+    transition: transform .3s ease-in-out
+
+    &:hover,
+    &:focus
+      transform: scale(1.25)
