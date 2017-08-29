@@ -1,112 +1,104 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import SearchForm from 'SearchForm';
+import Message from 'Message';
+import Preloader from 'Preloader';
 import RecipeCard from 'RecipeCard';
-
-import favoriteStorage from '../api/favorites';
+import SearchForm from 'SearchForm';
+import * as actions from '../actions/recipeActions';
 
 class HomePage extends Component {
-  constructor() {
-    super();
-    this.state = {
-      recipes: [],
-    };
-    this.fetchRecipes = this.fetchRecipes.bind(this);
+  constructor(props) {
+    super(props);
     this.onFavorite = this.onFavorite.bind(this);
     this.onSearch = this.onSearch.bind(this);
   }
   componentDidMount() {
-    this.fetchRecipes();
+    this.props.fetchRecipes();
   }
   onSearch(q) {
     const query = q.replace(/\s*,\s*/g, ',');
-    this.fetchRecipes(query);
+    this.props.fetchRecipes(query);
   }
   onFavorite(id) {
-    let updatedRecipe;
+    const { recipes } = this.props;
+    const index = recipes.findIndex(x => x.id === id);
+    const recipe = recipes[index];
 
-    function saveToLocalStorage() {
-      const favoriteRecipes = favoriteStorage.get();
-
-      if (updatedRecipe.isFavorite) {
-        const isDuplicate = favoriteRecipes.filter(
-          x => x.id === updatedRecipe.id
-        ).length > 0;
-
-        if (!isDuplicate) {
-          favoriteStorage.set([
-            ...favoriteRecipes,
-            updatedRecipe,
-          ]);
-        }
-      } else {
-        favoriteStorage.set(
-          favoriteRecipes.filter(x => x.id !== updatedRecipe.id)
-        );
-      }
+    if (recipe.isFavorite) {
+      this.props.removeFromFavorites(id);
+    } else {
+      this.props.addToFavorites(recipe);
     }
-
-    this.setState((prev) => {
-      const recipes = prev.recipes.map((recipe) => {
-        if (recipe.id === id) {
-          updatedRecipe = Object.assign({}, recipe, {
-            isFavorite: !recipe.isFavorite,
-          });
-
-          return updatedRecipe;
-        }
-        return recipe;
-      });
-
-      return { recipes };
-    }, saveToLocalStorage);
-  }
-  fetchRecipes(q = '') {
-    // should move to the API wrapper
-    const renameProps = fetchedRecipes => (
-      fetchedRecipes.map(recipe => ({
-        id: recipe.recipe_id,
-        title: recipe.title,
-        sourceUrl: recipe.source_url,
-        publisher: recipe.publisher,
-        publisherUrl: recipe.publisher_url,
-        thumbnail: recipe.image_url,
-      }))
-    );
-
-    axios.get('https://zsolti.co/recipes/', { params: { q } })
-      .then((res) => {
-        if (res.status !== 200 || res.data.err) {
-          // @todo: handle error
-          console.log(res.data.err);
-        } else if (res.data.recipes.length > 0) {
-          this.setState({
-            recipes: renameProps(res.data.recipes),
-          });
-        }
-      });
   }
   render() {
-    const renderedRecipes = this.state.recipes.map(recipe => (
-      <RecipeCard
-        key={recipe.id}
-        {...recipe}
-        handleFavClick={this.onFavorite}
-      />
-    ));
+    const renderRecipes = () => {
+      const { error, isFetching, recipes } = this.props;
+      if (error) {
+        return (
+          <Message type="error">{error}</Message>
+        );
+      }
+      if (isFetching) {
+        return (
+          <Message type="info">
+            <Preloader />
+            <span className="visuallyhidden">Searching for recipes...</span>
+          </Message>
+        );
+      }
+      if (recipes.length === 0) {
+        return (
+          <Message type="info">
+            There are no recipes matching your search.
+          </Message>
+        );
+      }
+      return recipes.map(recipe => (
+        <RecipeCard
+          key={recipe.id}
+          {...recipe}
+          handleFavClick={this.onFavorite}
+        />
+      ));
+    };
+
     return (
       <div className="page">
         <h1 className="page__title">
           <span>React Recipe Finder</span>
         </h1>
         <SearchForm handleSubmit={this.onSearch} />
-        <div className="results">
-          {renderedRecipes}
+        <div className="results" aria-atomic="true">
+          {renderRecipes()}
         </div>
       </div>
     );
   }
 }
 
-export default HomePage;
+HomePage.defaultProps = {
+  error: null,
+  isFetching: false,
+  recipes: [],
+};
+
+HomePage.propTypes = {
+  error: PropTypes.string,
+  fetchRecipes: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool,
+  recipes: PropTypes.arrayOf(
+    PropTypes.object,
+  ),
+  addToFavorites: PropTypes.func.isRequired,
+  removeFromFavorites: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  error: state.recipes.error,
+  recipes: state.recipes.recipes,
+  isFetching: state.recipes.isFetching,
+});
+
+export default connect(mapStateToProps, actions)(HomePage);
