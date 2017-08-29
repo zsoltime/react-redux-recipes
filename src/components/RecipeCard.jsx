@@ -37,7 +37,7 @@ const RecipeCard = props => (
     <div className="card__actions">
       <button
         className="card__btn"
-        onClick={() => props.handleFavClick(props.id)}
+        onClick={() => props.handleClick(props.id)}
         aria-label="Add to favourites"
         aria-pressed={props.isFavorite}
       >
@@ -58,7 +58,7 @@ RecipeCard.defaultProps = {
 };
 
 RecipeCard.propTypes = {
-  handleFavClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   isFavorite: PropTypes.bool,
   publisher: PropTypes.string,
