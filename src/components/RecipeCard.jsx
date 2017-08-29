@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import deafultImage from '../images/default.svg';
+import defaultImage from '../images/default.svg';
 
 const RecipeCard = props => (
   <div className="card">
@@ -54,7 +54,7 @@ RecipeCard.defaultProps = {
   isFavorite: false,
   publisher: '',
   publisherUrl: '',
-  thumbnail: deafultImage,
+  thumbnail: defaultImage,
 };
 
 RecipeCard.propTypes = {

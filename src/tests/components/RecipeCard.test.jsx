@@ -3,6 +3,7 @@ import expect from 'expect';
 import { shallow } from 'enzyme';
 
 import RecipeCard from 'RecipeCard';
+import defaultImage from '../../images/default.svg';
 
 describe('<RecipeCard />', () => {
   it('should exist', () => {
@@ -78,7 +79,6 @@ describe('<RecipeCard />', () => {
           title={props.title}
         />);
       const image = card.find('.card__image img');
-      const defaultImage = 'images/default.png';
 
       expect(image.length).toBe(1);
       expect(image.prop('src')).toBe(defaultImage);
