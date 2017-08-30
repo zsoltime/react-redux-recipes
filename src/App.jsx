@@ -1,15 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import About from 'About';
 import Page from 'Page';
-import 'styles';
+import Header from 'Header';
 
 const routes = () => (
   <Router basename={'/'}>
-    <div className="wrapper">
-      <Route exact path="/" component={Page} />
-      <Route path="/about" component={About} />
+    <div className="page">
+      <Header />
+      <Switch>
+        <Route exact path="/" component={Page} />
+        <Route path="/about" component={About} />
+      </Switch>
     </div>
   </Router>
 );

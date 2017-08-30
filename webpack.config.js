@@ -64,7 +64,7 @@ module.exports = {
       test: /\.(gif|jpe?g|png|svg)$/i,
       loader: 'url-loader',
       options: {
-        limit: 25000,
+        limit: 2000,
       },
     }],
   },
@@ -76,6 +76,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
+    historyApiFallback: true,
     hot: true,
     overlay: true,
     port: 3000,

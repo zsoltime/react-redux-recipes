@@ -32,10 +32,7 @@ class HomePage extends Component {
   }
   render() {
     return (
-      <div className="page">
-        <h1 className="page__title">
-          <span>React Recipe Finder</span>
-        </h1>
+      <div className="wrapper">
         <SearchForm handleSubmit={this.onSearch} />
         <RecipeList handleClick={this.onFavorite} />
       </div>
